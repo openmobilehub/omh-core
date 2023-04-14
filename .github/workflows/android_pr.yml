@@ -1,0 +1,41 @@
+name: Android CI
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize ]
+
+jobs:
+  generate_app_apk:
+    name: Assemble all modules & apps.
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Assemble app debug APK
+        run: bash ./gradlew assembleDebug
+
+  code_quality_analysis:
+    name: Check code quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Misspelling on detekt
+        run: bash ./gradlew detekt
+      - name: Run unit tests & validate coverage
+        run: bash ./gradlew jacocoCoverageVerification --stacktrace --continue
