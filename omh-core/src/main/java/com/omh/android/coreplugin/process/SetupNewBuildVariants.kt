@@ -1,6 +1,7 @@
 package com.omh.android.coreplugin.process
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.omh.android.coreplugin.model.OMHExtension
 import com.omh.android.coreplugin.process.Helper.generateNewBuildTypeName
 import com.omh.android.coreplugin.process.Helper.getBundleDependencies
@@ -55,6 +56,12 @@ internal object SetupNewBuildVariants {
                 for (bundleDependency in dependenciesToAdd) {
                     project.addDependencyToBuildType(bundleDependency, newBuildVariant)
                 }
+            }
+            // add previously defined build config fields from default section
+            project.extensions.getByType(
+                BaseAppModuleExtension::class.java
+            ).defaultConfig.buildConfigFields.forEach { (key, field) ->
+                buildConfigField(field.type, key, field.value)
             }
         }
     }
