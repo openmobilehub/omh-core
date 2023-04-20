@@ -1,5 +1,6 @@
 package com.omh.android.coreplugin.model
 
+import com.omh.android.coreplugin.utils.ApiPath
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
@@ -41,12 +42,15 @@ open class DefaultService @Inject constructor(project: Project) {
 
         if (authDependency.isNotEmpty()) {
             dependencyList.add(authDependency)
+            dependencyList.add(ApiPath.AUTH)
         }
         if (mapsDependency.isNotEmpty()) {
             dependencyList.add(mapsDependency)
+            dependencyList.add(ApiPath.MAPS)
         }
         if (storageDependency.isNotEmpty()) {
             dependencyList.add(storageDependency)
+            dependencyList.add(ApiPath.STORAGE)
         }
 
         return dependencyList
