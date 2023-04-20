@@ -1,5 +1,6 @@
 package com.omh.android.coreplugin.model
 
+import com.omh.android.coreplugin.utils.ApiPath
 import groovy.lang.Closure
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -11,6 +12,8 @@ open class Bundle @Inject constructor(project: Project) {
     private val auth: Service = project.objects.newInstance(Service::class.java, project)
     private val maps: Service = project.objects.newInstance(Service::class.java, project)
     private val storage: Service = project.objects.newInstance(Service::class.java, project)
+
+    private val pathsList = mutableListOf<String>()
 
     // region Gradle Groovy
     fun auth(configuration: Closure<Service>) {
@@ -35,25 +38,36 @@ open class Bundle @Inject constructor(project: Project) {
     fun storage(configuration: Action<in Service>) = configuration.execute(storage)
     //endregion
 
+    private fun addApiDependencyIfNoExists(apiDependency: String) {
+        if (pathsList.contains(apiDependency)) return
+        pathsList.add(apiDependency)
+    }
+
     internal fun getDependencies(): List<String> {
-        val pathsList = mutableListOf<String>()
+        pathsList.clear()
         if (auth.isThereGmsService()) {
             pathsList.add(auth.gmsService())
+            addApiDependencyIfNoExists(ApiPath.AUTH)
         }
         if (auth.isThereNonGmsService()) {
             pathsList.add(auth.nonGmsService())
+            addApiDependencyIfNoExists(ApiPath.AUTH)
         }
         if (maps.isThereGmsService()) {
             pathsList.add(maps.gmsService())
+            addApiDependencyIfNoExists(ApiPath.MAPS)
         }
         if (maps.isThereNonGmsService()) {
             pathsList.add(maps.nonGmsService())
+            addApiDependencyIfNoExists(ApiPath.MAPS)
         }
         if (storage.isThereGmsService()) {
             pathsList.add(storage.gmsService())
+            addApiDependencyIfNoExists(ApiPath.STORAGE)
         }
         if (storage.isThereNonGmsService()) {
             pathsList.add(storage.nonGmsService())
+            addApiDependencyIfNoExists(ApiPath.STORAGE)
         }
         return pathsList
     }
