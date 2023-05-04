@@ -40,21 +40,12 @@ internal object Helper {
         appExt: ApplicationExtension
     ): ApplicationBuildType = appExt.buildTypes.getByName(alreadyDefinedBuildType)
 
-    fun getBundleGmsPaths(
+    fun getBundleReflectionPaths(
         bundleName: String,
         omhExt: OMHExtension
     ): Map<String, String> {
         val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
         val bundle: Bundle? = bundles.get()[bundleName]
-        return bundle?.getGmsPaths() ?: emptyMap()
-    }
-
-    fun getBundleNonGmsPaths(
-        bundleName: String,
-        omhExt: OMHExtension
-    ): Map<String, String> {
-        val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
-        val bundle: Bundle? = bundles.get()[bundleName]
-        return bundle?.getNonGmsPaths() ?: emptyMap()
+        return bundle?.getReflectionPaths() ?: emptyMap()
     }
 }

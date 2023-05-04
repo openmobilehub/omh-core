@@ -109,24 +109,30 @@ open class Bundle @Inject constructor(project: Project) {
         return dependencies
     }
 
-    internal fun getGmsPaths(): Map<String, String> {
-        return getReflectionPaths(auth::isThereGmsService, auth::getGmsPath)
-    }
-
-    internal fun getNonGmsPaths(): Map<String, String> {
-        return getReflectionPaths(auth::isThereNonGmsService, auth::getNonGmsPath)
-    }
-
-    private fun getReflectionPaths(
-        validator: () -> Boolean,
-        getter: () -> String
-    ): Map<String, String> {
-        val nonGmsPathsList = mutableMapOf<String, String>()
+    fun getReflectionPaths(): Map<String, String> {
+        val pathMap = mutableMapOf<String, String>()
         for (service in enabledServices) {
-            // NULL will be converted to the primitive type in the BuildConfigField.
-            val pathValue = if (validator()) getter() else "null"
-            nonGmsPathsList[service.key] = pathValue
+            addPathsFromService(pathMap, service)
         }
-        return nonGmsPathsList
+        return pathMap
+    }
+
+    private fun addPathsFromService(
+        pathMap: MutableMap<String, String>,
+        service: Service
+    ) {
+        pathMap["${service.key}_GMS_PATH"] = selectPathValue(
+            validator = service::isThereGmsService,
+            getter = service::getGmsPath
+        )
+        pathMap["${service.key}_NON_GMS_PATH"] = selectPathValue(
+            validator = service::isThereNonGmsService,
+            getter = service::getNonGmsPath
+        )
+    }
+
+    private fun selectPathValue(validator: () -> Boolean, getter: () -> String): String {
+        // NULL will be converted to the primitive type in the BuildConfigField.
+        return if (validator()) getter() else "null"
     }
 }
