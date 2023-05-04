@@ -13,7 +13,7 @@ open class Bundle @Inject constructor(project: Project) {
     private val maps: Service = project.objects.newInstance(Service::class.java, project)
     private val storage: Service = project.objects.newInstance(Service::class.java, project)
 
-    private val pathsList = mutableListOf<String>()
+    private val dependencies = mutableListOf<String>()
 
     // region Gradle Groovy
     fun auth(configuration: Closure<Service>) {
@@ -39,36 +39,36 @@ open class Bundle @Inject constructor(project: Project) {
     //endregion
 
     private fun addApiDependencyIfNoExists(apiDependency: String) {
-        if (pathsList.contains(apiDependency)) return
-        pathsList.add(apiDependency)
+        if (dependencies.contains(apiDependency)) return
+        dependencies.add(apiDependency)
     }
 
     internal fun getDependencies(): List<String> {
-        pathsList.clear()
+        dependencies.clear()
         if (auth.isThereGmsService()) {
-            pathsList.add(auth.gmsService())
+            dependencies.add(auth.gmsService())
             addApiDependencyIfNoExists(ApiPath.AUTH)
         }
         if (auth.isThereNonGmsService()) {
-            pathsList.add(auth.nonGmsService())
+            dependencies.add(auth.nonGmsService())
             addApiDependencyIfNoExists(ApiPath.AUTH)
         }
         if (maps.isThereGmsService()) {
-            pathsList.add(maps.gmsService())
+            dependencies.add(maps.gmsService())
             addApiDependencyIfNoExists(ApiPath.MAPS)
         }
         if (maps.isThereNonGmsService()) {
-            pathsList.add(maps.nonGmsService())
+            dependencies.add(maps.nonGmsService())
             addApiDependencyIfNoExists(ApiPath.MAPS)
         }
         if (storage.isThereGmsService()) {
-            pathsList.add(storage.gmsService())
+            dependencies.add(storage.gmsService())
             addApiDependencyIfNoExists(ApiPath.STORAGE)
         }
         if (storage.isThereNonGmsService()) {
-            pathsList.add(storage.nonGmsService())
+            dependencies.add(storage.nonGmsService())
             addApiDependencyIfNoExists(ApiPath.STORAGE)
         }
-        return pathsList
+        return dependencies
     }
 }
