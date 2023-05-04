@@ -35,4 +35,10 @@ open class Service @Inject constructor(project: Project) {
     internal fun getGmsPath() = gmsPathProperty.get()
     internal fun getNonGmsPath() = nonGMSPathProperty.get()
 
+    companion object {
+        const val AUTH = "AUTH"
+        const val STORAGE = "STORAGE"
+        const val MAPS = "MAPS"
+    }
+
 }

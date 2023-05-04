@@ -71,4 +71,20 @@ open class Bundle @Inject constructor(project: Project) {
         }
         return dependencies
     }
+
+    internal fun getGmsPaths(): List<String> {
+        val gmsPathsList = mutableListOf<String>()
+        if (auth.isThereGmsService()) {
+            gmsPathsList.add(auth.getGmsPath())
+        }
+        return gmsPathsList
+    }
+
+    internal fun getNonGmsPaths(): List<String> {
+        val nonGmsPathsList = mutableListOf<String>()
+        if (auth.isThereNonGmsService()) {
+            nonGmsPathsList.add(auth.getNonGmsPath())
+        }
+        return nonGmsPathsList
+    }
 }

@@ -5,6 +5,8 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.omh.android.coreplugin.model.OMHExtension
 import com.omh.android.coreplugin.process.Helper.generateNewBuildTypeName
 import com.omh.android.coreplugin.process.Helper.getBundleDependencies
+import com.omh.android.coreplugin.process.Helper.getBundleGmsPaths
+import com.omh.android.coreplugin.process.Helper.getBundleNonGmsPaths
 import com.omh.android.coreplugin.process.Helper.getBundlesNames
 import com.omh.android.coreplugin.process.Helper.getUserAppBuildType
 import com.omh.android.coreplugin.utils.addDependencyToBuildType
@@ -24,6 +26,15 @@ internal object SetupNewBuildVariants {
                 bundleNameForNewBuildVariant, omhExtension
             )
 
+            val bundleGmsPaths = getBundleGmsPaths(
+                bundleNameForNewBuildVariant, omhExtension
+            )
+
+            val bundleNonGmsPaths = getBundleNonGmsPaths(
+                bundleNameForNewBuildVariant, omhExtension
+            )
+
+
             alreadyDefinedBuildTypes.forEach { userBuildTypeAlreadyDefined ->
                 val finalBuildType = generateNewBuildTypeName(
                     userBuildTypeAlreadyDefined, bundleNameForNewBuildVariant
@@ -33,6 +44,8 @@ internal object SetupNewBuildVariants {
                     finalBuildType,
                     userBuildTypeAlreadyDefined,
                     dependenciesToAdd,
+                    bundleGmsPaths,
+                    bundleNonGmsPaths,
                     appExtension,
                     project
                 )
@@ -45,6 +58,8 @@ internal object SetupNewBuildVariants {
         newBuildVariant: String,
         existingBuildType: String,
         dependenciesToAdd: List<String>,
+        bundleGmsPaths: List<String>,
+        bundleNonGmsPaths: List<String>,
         appExtension: ApplicationExtension,
         project: Project
     ) {
@@ -58,10 +73,20 @@ internal object SetupNewBuildVariants {
                 }
             }
             // add previously defined build config fields from default section
-            project.extensions.getByType(
-                BaseAppModuleExtension::class.java
-            ).defaultConfig.buildConfigFields.forEach { (key, field) ->
-                buildConfigField(field.type, key, field.value)
+            for (bundlePath in bundleGmsPaths) {
+                buildConfigField("String", "GMS_PATH", "\"$bundlePath\"")
+            }
+
+            if (bundleGmsPaths.isEmpty()) {
+                buildConfigField("String", "GMS_PATH", "null")
+            }
+
+            for (bundlePath in bundleNonGmsPaths) {
+                buildConfigField("String", "NON_GMS_PATH", "\"$bundlePath\"")
+            }
+
+            if (bundleNonGmsPaths.isEmpty()) {
+                buildConfigField("String", "NON_GMS_PATH", "null")
             }
         }
     }

@@ -38,4 +38,17 @@ internal object Helper {
         appExt: ApplicationExtension
     ): ApplicationBuildType = appExt.buildTypes.getByName(alreadyDefinedBuildType)
 
+    fun getBundleGmsPaths(
+        bundleName: String,
+        omhExt: OMHExtension
+    ): List<String> = omhExt
+        .getBundles()
+        .get()[bundleName]?.getGmsPaths() ?: mutableListOf()
+
+    fun getBundleNonGmsPaths(
+        bundleName: String,
+        omhExt: OMHExtension
+    ): List<String> = omhExt
+        .getBundles()
+        .get()[bundleName]?.getNonGmsPaths() ?: mutableListOf()
 }
