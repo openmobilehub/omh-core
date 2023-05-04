@@ -2,7 +2,9 @@ package com.omh.android.coreplugin.process
 
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.ApplicationExtension
+import com.omh.android.coreplugin.model.Bundle
 import com.omh.android.coreplugin.model.OMHExtension
+import org.gradle.api.provider.MapProperty
 import org.gradle.configurationcache.extensions.capitalized
 
 internal object Helper {
@@ -41,14 +43,18 @@ internal object Helper {
     fun getBundleGmsPaths(
         bundleName: String,
         omhExt: OMHExtension
-    ): List<String> = omhExt
-        .getBundles()
-        .get()[bundleName]?.getGmsPaths() ?: mutableListOf()
+    ): Map<String, String> {
+        val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
+        val bundle: Bundle? = bundles.get()[bundleName]
+        return bundle?.getGmsPaths() ?: emptyMap()
+    }
 
     fun getBundleNonGmsPaths(
         bundleName: String,
         omhExt: OMHExtension
-    ): List<String> = omhExt
-        .getBundles()
-        .get()[bundleName]?.getNonGmsPaths() ?: mutableListOf()
+    ): Map<String, String> {
+        val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
+        val bundle: Bundle? = bundles.get()[bundleName]
+        return bundle?.getNonGmsPaths() ?: emptyMap()
+    }
 }

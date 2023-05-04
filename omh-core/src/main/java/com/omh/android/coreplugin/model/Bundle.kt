@@ -1,5 +1,7 @@
 package com.omh.android.coreplugin.model
 
+import com.omh.android.coreplugin.utils.AUTH_GMS_ADDRESS
+import com.omh.android.coreplugin.utils.AUTH_NGMS_ADDRESS
 import com.omh.android.coreplugin.utils.ApiPath
 import groovy.lang.Closure
 import org.gradle.api.Action
@@ -7,35 +9,70 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+@SuppressWarnings("TooManyFunctions")
 open class Bundle @Inject constructor(project: Project) {
     internal val id: Property<String> = project.objects.property(String::class.java)
-    private val auth: Service = project.objects.newInstance(Service::class.java, project)
-    private val maps: Service = project.objects.newInstance(Service::class.java, project)
-    private val storage: Service = project.objects.newInstance(Service::class.java, project)
+    private val auth: Service = project.objects.newInstance(
+        Service::class.java,
+        project,
+        Service.AUTH,
+        AUTH_GMS_ADDRESS,
+        AUTH_NGMS_ADDRESS
+    )
+    private val maps: Service = project.objects.newInstance(
+        Service::class.java,
+        project,
+        Service.MAPS,
+        "",
+        ""
+    ) // TODO ADD REFLECTION PATHS
+    private val storage: Service = project.objects.newInstance(
+        Service::class.java,
+        project,
+        Service.STORAGE,
+        "",
+        ""
+    ) // TODO ADD REFLECTION PATHS
+
+    private val enabledServices: MutableSet<Service> = mutableSetOf()
 
     private val dependencies = mutableListOf<String>()
 
     // region Gradle Groovy
     fun auth(configuration: Closure<Service>) {
+        enabledServices.add(auth)
         configuration.delegate = auth
         configuration.call()
     }
 
     fun maps(configuration: Closure<Service>) {
+        enabledServices.add(maps)
         configuration.delegate = maps
         configuration.call()
     }
 
     fun storage(configuration: Closure<Service>) {
+        enabledServices.add(storage)
         configuration.delegate = storage
         configuration.call()
     }
     //endregion
 
     // region Gradle Kotlin
-    fun auth(configuration: Action<in Service>) = configuration.execute(auth)
-    fun maps(configuration: Action<in Service>) = configuration.execute(maps)
-    fun storage(configuration: Action<in Service>) = configuration.execute(storage)
+    fun auth(configuration: Action<in Service>) {
+        enabledServices.add(auth)
+        configuration.execute(auth)
+    }
+
+    fun maps(configuration: Action<in Service>) {
+        enabledServices.add(maps)
+        configuration.execute(maps)
+    }
+
+    fun storage(configuration: Action<in Service>) {
+        enabledServices.add(storage)
+        configuration.execute(storage)
+    }
     //endregion
 
     private fun addApiDependencyIfNoExists(apiDependency: String) {
@@ -72,18 +109,23 @@ open class Bundle @Inject constructor(project: Project) {
         return dependencies
     }
 
-    internal fun getGmsPaths(): List<String> {
-        val gmsPathsList = mutableListOf<String>()
-        if (auth.isThereGmsService()) {
-            gmsPathsList.add(auth.getGmsPath())
-        }
-        return gmsPathsList
+    internal fun getGmsPaths(): Map<String, String> {
+        return getReflectionPaths(auth::isThereGmsService, auth::getGmsPath)
     }
 
-    internal fun getNonGmsPaths(): List<String> {
-        val nonGmsPathsList = mutableListOf<String>()
-        if (auth.isThereNonGmsService()) {
-            nonGmsPathsList.add(auth.getNonGmsPath())
+    internal fun getNonGmsPaths(): Map<String, String> {
+        return getReflectionPaths(auth::isThereNonGmsService, auth::getNonGmsPath)
+    }
+
+    private fun getReflectionPaths(
+        validator: () -> Boolean,
+        getter: () -> String
+    ): Map<String, String> {
+        val nonGmsPathsList = mutableMapOf<String, String>()
+        for (service in enabledServices) {
+            // NULL will be converted to the primitive type in the BuildConfigField.
+            val pathValue = if (validator()) getter() else "null"
+            nonGmsPathsList[service.key] = pathValue
         }
         return nonGmsPathsList
     }

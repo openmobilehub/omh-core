@@ -1,5 +1,6 @@
 package com.omh.android.coreplugin.process
 
+import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.omh.android.coreplugin.model.OMHExtension
@@ -22,44 +23,69 @@ internal object SetupNewBuildVariants {
         project: Project
     ) {
         getBundlesNames(omhExtension).forEach { bundleNameForNewBuildVariant ->
-            val dependenciesToAdd = getBundleDependencies(
-                bundleNameForNewBuildVariant, omhExtension
+            val dependenciesToAdd: List<String> = getBundleDependencies(
+                bundleName = bundleNameForNewBuildVariant,
+                omhExt = omhExtension
             )
 
-            val bundleGmsPaths = getBundleGmsPaths(
-                bundleNameForNewBuildVariant, omhExtension
+            val bundleGmsPaths: Map<String, String> = getBundleGmsPaths(
+                bundleName = bundleNameForNewBuildVariant,
+                omhExt = omhExtension
             )
 
-            val bundleNonGmsPaths = getBundleNonGmsPaths(
-                bundleNameForNewBuildVariant, omhExtension
+            val bundleNonGmsPaths: Map<String, String> = getBundleNonGmsPaths(
+                bundleName = bundleNameForNewBuildVariant,
+                omhExt = omhExtension
             )
-
 
             alreadyDefinedBuildTypes.forEach { userBuildTypeAlreadyDefined ->
-                val finalBuildType = generateNewBuildTypeName(
-                    userBuildTypeAlreadyDefined, bundleNameForNewBuildVariant
-                )
-
-                createNewBuildVariantWithDependencies(
-                    finalBuildType,
+                handleNewBuildType(
                     userBuildTypeAlreadyDefined,
+                    bundleNameForNewBuildVariant,
                     dependenciesToAdd,
                     bundleGmsPaths,
                     bundleNonGmsPaths,
                     appExtension,
-                    project
+                    project,
+                    createdBuildTypesList
                 )
-                createdBuildTypesList.add(finalBuildType)
             }
         }
+    }
+
+    private fun handleNewBuildType(
+        userBuildTypeAlreadyDefined: String,
+        bundleNameForNewBuildVariant: String,
+        dependenciesToAdd: List<String>,
+        bundleGmsPaths: Map<String, String>,
+        bundleNonGmsPaths: Map<String, String>,
+        appExtension: ApplicationExtension,
+        project: Project,
+        createdBuildTypesList: MutableList<String>
+    ) {
+        val finalBuildType: String = generateNewBuildTypeName(
+            alreadyDefinedBuildType = userBuildTypeAlreadyDefined,
+            bundleName = bundleNameForNewBuildVariant
+        )
+
+        createNewBuildVariantWithDependencies(
+            finalBuildType,
+            userBuildTypeAlreadyDefined,
+            dependenciesToAdd,
+            bundleGmsPaths,
+            bundleNonGmsPaths,
+            appExtension,
+            project
+        )
+        createdBuildTypesList.add(finalBuildType)
     }
 
     private fun createNewBuildVariantWithDependencies(
         newBuildVariant: String,
         existingBuildType: String,
         dependenciesToAdd: List<String>,
-        bundleGmsPaths: List<String>,
-        bundleNonGmsPaths: List<String>,
+        bundleGmsPaths: Map<String, String>,
+        bundleNonGmsPaths: Map<String, String>,
         appExtension: ApplicationExtension,
         project: Project
     ) {
@@ -67,27 +93,33 @@ internal object SetupNewBuildVariants {
             // Function that lets you copy configurations from an existing build type
             initWith(getUserAppBuildType(existingBuildType, appExtension))
             // then configure only the settings you want to change
-            if (dependenciesToAdd.isNotEmpty()) {
-                for (bundleDependency in dependenciesToAdd) {
-                    project.addDependencyToBuildType(bundleDependency, newBuildVariant)
-                }
-            }
-            // add previously defined build config fields from default section
-            for (bundlePath in bundleGmsPaths) {
-                buildConfigField("String", "GMS_PATH", "\"$bundlePath\"")
-            }
+            addDependencies(dependenciesToAdd, project, newBuildVariant)
+            addBuildConfigFields(bundleGmsPaths, bundleNonGmsPaths)
+        }
+    }
 
-            if (bundleGmsPaths.isEmpty()) {
-                buildConfigField("String", "GMS_PATH", "null")
-            }
+    private fun addDependencies(
+        dependenciesToAdd: List<String>,
+        project: Project,
+        newBuildVariant: String
+    ) {
+        if (dependenciesToAdd.isEmpty()) return
+        for (bundleDependency in dependenciesToAdd) {
+            project.addDependencyToBuildType(bundleDependency, newBuildVariant)
+        }
+    }
 
-            for (bundlePath in bundleNonGmsPaths) {
-                buildConfigField("String", "NON_GMS_PATH", "\"$bundlePath\"")
-            }
+    private fun ApplicationBuildType.addBuildConfigFields(
+        bundleGmsPaths: Map<String, String>,
+        bundleNonGmsPaths: Map<String, String>
+    ) {
+        // add previously defined build config fields from default section
+        for ((moduleName: String, bundlePath: String) in bundleGmsPaths) {
+            buildConfigField("String", "${moduleName}_GMS_PATH", "\"$bundlePath\"")
+        }
 
-            if (bundleNonGmsPaths.isEmpty()) {
-                buildConfigField("String", "NON_GMS_PATH", "null")
-            }
+        for ((moduleName: String, bundlePath: String) in bundleNonGmsPaths) {
+            buildConfigField("String", "${moduleName}_NON_GMS_PATH", "\"$bundlePath\"")
         }
     }
 

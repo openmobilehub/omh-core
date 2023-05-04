@@ -4,7 +4,12 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
-open class Service @Inject constructor(project: Project) {
+open class Service @Inject constructor(
+    project: Project,
+    val key: String,
+    private val gmsPath: String,
+    private val nonGmsPath: String
+) {
 
     private val gmsProperty: Property<String> = project.objects.property(String::class.java)
     private val gmsPathProperty: Property<String> = project.objects.property(String::class.java)
@@ -20,12 +25,12 @@ open class Service @Inject constructor(project: Project) {
         return nonGmsProperty.isPresent && nonGmsProperty.get().trim().isNotEmpty()
     }
 
-    fun setGmsService(groupIdWithVersion: String, reflectionPath: String) {
+    fun setGmsService(groupIdWithVersion: String, reflectionPath: String = gmsPath) {
         gmsProperty.set(groupIdWithVersion)
         gmsPathProperty.set(reflectionPath)
     }
 
-    fun setNonGmsService(groupIdWithVersion: String, reflectionPath: String) {
+    fun setNonGmsService(groupIdWithVersion: String, reflectionPath: String = nonGmsPath) {
         nonGmsProperty.set(groupIdWithVersion)
         nonGMSPathProperty.set(reflectionPath)
     }
