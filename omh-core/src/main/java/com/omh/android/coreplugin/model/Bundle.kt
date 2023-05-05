@@ -14,21 +14,18 @@ open class Bundle @Inject constructor(project: Project) {
     internal val id: Property<String> = project.objects.property(String::class.java)
     private val auth: Service = project.objects.newInstance(
         Service::class.java,
-        project,
         Service.AUTH,
         AUTH_GMS_ADDRESS,
         AUTH_NGMS_ADDRESS
     )
     private val maps: Service = project.objects.newInstance(
         Service::class.java,
-        project,
         Service.MAPS,
         "",
         ""
     ) // TODO ADD REFLECTION PATHS
     private val storage: Service = project.objects.newInstance(
         Service::class.java,
-        project,
         Service.STORAGE,
         "",
         ""

@@ -3,47 +3,45 @@ package com.omh.android.coreplugin.model
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
+import org.gradle.api.Action
 
 open class Service @Inject constructor(
     project: Project,
     val key: String,
-    private val gmsPath: String,
-    private val nonGmsPath: String
+    gmsPath: String,
+    nonGmsPath: String
 ) {
 
-    private val gmsProperty: Property<String> = project.objects.property(String::class.java)
-    private val gmsPathProperty: Property<String> = project.objects.property(String::class.java)
+    private val gmsServiceDetail: ServiceDetail = project.objects.newInstance(
+        ServiceDetail::class.java,
+        gmsPath,
+    )
+    private val ngmsServiceDetail: ServiceDetail = project.objects.newInstance(
+        ServiceDetail::class.java,
+        nonGmsPath,
+    )
 
-    private val nonGmsProperty: Property<String> = project.objects.property(String::class.java)
-    private val nonGMSPathProperty: Property<String> = project.objects.property(String::class.java)
+    internal fun isThereGmsService(): Boolean = gmsServiceDetail.isDependencySet
 
-    internal fun isThereGmsService(): Boolean {
-        return gmsProperty.isPresent && gmsProperty.get().trim().isNotEmpty()
+    internal fun isThereNonGmsService(): Boolean = ngmsServiceDetail.isDependencySet
+
+    fun gmsService(configuration: Action<in ServiceDetail>) {
+        configuration.execute(gmsServiceDetail)
     }
 
-    internal fun isThereNonGmsService(): Boolean {
-        return nonGmsProperty.isPresent && nonGmsProperty.get().trim().isNotEmpty()
+    fun nonGmsService(configuration: Action<in ServiceDetail>) {
+        configuration.execute(ngmsServiceDetail)
     }
 
-    fun setGmsService(groupIdWithVersion: String, reflectionPath: String = gmsPath) {
-        gmsProperty.set(groupIdWithVersion)
-        gmsPathProperty.set(reflectionPath)
-    }
-
-    fun setNonGmsService(groupIdWithVersion: String, reflectionPath: String = nonGmsPath) {
-        nonGmsProperty.set(groupIdWithVersion)
-        nonGMSPathProperty.set(reflectionPath)
-    }
-
-    internal fun gmsService() = gmsProperty.get()
-    internal fun nonGmsService() = nonGmsProperty.get()
-    internal fun getGmsPath() = gmsPathProperty.get()
-    internal fun getNonGmsPath() = nonGMSPathProperty.get()
+    internal fun gmsService() = gmsServiceDetail.getDependency()
+    internal fun nonGmsService() = ngmsServiceDetail.getDependency()
+    internal fun getGmsPath() = gmsServiceDetail.getPath()
+    internal fun getNonGmsPath() = ngmsServiceDetail.getPath()
 
     companion object {
-        const val AUTH = "AUTH"
-        const val STORAGE = "STORAGE"
-        const val MAPS = "MAPS"
+        internal const val AUTH = "AUTH"
+        internal const val STORAGE = "STORAGE"
+        internal const val MAPS = "MAPS"
     }
 
 }
