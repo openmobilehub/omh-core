@@ -11,6 +11,7 @@ import org.gradle.api.Project
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
+import org.gradle.api.Action
 
 open class OMHExtension @Inject constructor(private val project: Project) {
 
@@ -23,10 +24,10 @@ open class OMHExtension @Inject constructor(private val project: Project) {
         Bundle::class.java
     )
 
-    fun bundle(id: String, configuration: Bundle.() -> Unit) {
+    fun bundle(id: String, configuration: Action<in Bundle>) {
         val bundle = project.objects.newInstance(Bundle::class.java, project)
         bundle.id.set(id.trim())
-        bundle.apply(configuration)
+        configuration.execute(bundle)
         bundles.put(bundle.id.get(), bundle)
     }
 

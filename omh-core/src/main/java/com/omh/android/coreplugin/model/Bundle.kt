@@ -35,27 +35,6 @@ open class Bundle @Inject constructor(project: Project) {
 
     private val dependencies = mutableListOf<String>()
 
-    // region Gradle Groovy
-    fun auth(configuration: Closure<Service>) {
-        enabledServices.add(auth)
-        configuration.delegate = auth
-        configuration.call()
-    }
-
-    fun maps(configuration: Closure<Service>) {
-        enabledServices.add(maps)
-        configuration.delegate = maps
-        configuration.call()
-    }
-
-    fun storage(configuration: Closure<Service>) {
-        enabledServices.add(storage)
-        configuration.delegate = storage
-        configuration.call()
-    }
-    //endregion
-
-    // region Gradle Kotlin
     fun auth(configuration: Action<in Service>) {
         enabledServices.add(auth)
         configuration.execute(auth)
@@ -70,7 +49,6 @@ open class Bundle @Inject constructor(project: Project) {
         enabledServices.add(storage)
         configuration.execute(storage)
     }
-    //endregion
 
     private fun addApiDependencyIfNoExists(apiDependency: String) {
         if (dependencies.contains(apiDependency)) return
