@@ -8,7 +8,6 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
-@SuppressWarnings("TooManyFunctions")
 open class Bundle @Inject constructor(project: Project) {
 
     internal val id: Property<String> = project.objects.property(String::class.java)
