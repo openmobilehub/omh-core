@@ -1,7 +1,6 @@
 package com.omh.android.coreplugin.model
 
 import org.gradle.api.Project
-import org.gradle.api.provider.Property
 import javax.inject.Inject
 import org.gradle.api.Action
 
@@ -21,9 +20,10 @@ open class Service @Inject constructor(
         nonGmsPath,
     )
 
-    internal fun isThereGmsService(): Boolean = gmsServiceDetail.isDependencySet
-
-    internal fun isThereNonGmsService(): Boolean = ngmsServiceDetail.isDependencySet
+    internal val isGmsDependencySet: Boolean
+        get() = gmsServiceDetail.isDependencySet
+    internal val isNonGmsDependencySet: Boolean
+        get() = ngmsServiceDetail.isDependencySet
 
     fun gmsService(configuration: Action<in ServiceDetail>) {
         configuration.execute(gmsServiceDetail)
@@ -33,10 +33,14 @@ open class Service @Inject constructor(
         configuration.execute(ngmsServiceDetail)
     }
 
-    internal fun gmsService() = gmsServiceDetail.getDependency()
-    internal fun nonGmsService() = ngmsServiceDetail.getDependency()
-    internal fun getGmsPath() = gmsServiceDetail.getPath()
-    internal fun getNonGmsPath() = ngmsServiceDetail.getPath()
+    internal val gmsService
+        get() = gmsServiceDetail.getDependency()
+    internal val nonGmsService
+        get() = ngmsServiceDetail.getDependency()
+    internal val gmsPath
+        get() = gmsServiceDetail.getPath()
+    internal val nonGmsPath
+        get() = ngmsServiceDetail.getPath()
 
     companion object {
         internal const val AUTH = "AUTH"
