@@ -1,24 +1,51 @@
 package com.omh.android.coreplugin.model
 
 import org.gradle.api.Project
-import org.gradle.api.provider.Property
 import javax.inject.Inject
+import org.gradle.api.Action
 
-open class Service @Inject constructor(project: Project) {
-    private val gms: Property<String> = project.objects.property(String::class.java)
-    private val nonGms: Property<String> = project.objects.property(String::class.java)
+open class Service @Inject constructor(
+    project: Project,
+    val key: String,
+    gmsPath: String,
+    nonGmsPath: String
+) {
 
-    internal fun isThereGmsService() = gms.isPresent && gms.get().trim().isNotEmpty()
-    internal fun isThereNonGmsService() = nonGms.isPresent && nonGms.get().trim().isNotEmpty()
+    private val gmsServiceDetail: ServiceDetail = project.objects.newInstance(
+        ServiceDetail::class.java,
+        gmsPath,
+    )
+    private val ngmsServiceDetail: ServiceDetail = project.objects.newInstance(
+        ServiceDetail::class.java,
+        nonGmsPath,
+    )
 
-    fun addGmsService(groupIdWithVersion: String) {
-        gms.set(groupIdWithVersion)
+    internal val isGmsDependencySet: Boolean
+        get() = gmsServiceDetail.isDependencySet
+    internal val isNonGmsDependencySet: Boolean
+        get() = ngmsServiceDetail.isDependencySet
+
+    fun gmsService(configuration: Action<in ServiceDetail>) {
+        configuration.execute(gmsServiceDetail)
     }
 
-    fun addNonGmsService(groupIdWithVersion: String) {
-        nonGms.set(groupIdWithVersion)
+    fun nonGmsService(configuration: Action<in ServiceDetail>) {
+        configuration.execute(ngmsServiceDetail)
     }
 
-    internal fun gmsService() = gms.get()
-    internal fun nonGmsService() = nonGms.get()
+    internal val gmsService
+        get() = gmsServiceDetail.getDependency()
+    internal val nonGmsService
+        get() = ngmsServiceDetail.getDependency()
+    internal val gmsPath
+        get() = gmsServiceDetail.getPath()
+    internal val nonGmsPath
+        get() = ngmsServiceDetail.getPath()
+
+    companion object {
+        internal const val AUTH = "AUTH"
+        internal const val STORAGE = "STORAGE"
+        internal const val MAPS = "MAPS"
+    }
+
 }

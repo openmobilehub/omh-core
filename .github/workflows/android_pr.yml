@@ -19,8 +19,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Assemble app debug APK
-        run: bash ./gradlew assembleDebug
+      - name: Build the project
+        run: bash ./gradlew build --stacktrace
 
   code_quality_analysis:
     name: Check code quality
@@ -36,6 +36,4 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Misspelling on detekt
-        run: bash ./gradlew detekt
-      - name: Run unit tests & validate coverage
-        run: bash ./gradlew jacocoCoverageVerification --stacktrace --continue
+        run: bash ./gradlew detekt --stacktrace --continue

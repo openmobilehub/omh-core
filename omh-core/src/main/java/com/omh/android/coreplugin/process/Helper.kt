@@ -2,7 +2,9 @@ package com.omh.android.coreplugin.process
 
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.ApplicationExtension
+import com.omh.android.coreplugin.model.Bundle
 import com.omh.android.coreplugin.model.OMHExtension
+import org.gradle.api.provider.MapProperty
 import org.gradle.configurationcache.extensions.capitalized
 
 internal object Helper {
@@ -38,4 +40,12 @@ internal object Helper {
         appExt: ApplicationExtension
     ): ApplicationBuildType = appExt.buildTypes.getByName(alreadyDefinedBuildType)
 
+    fun getBundleReflectionPaths(
+        bundleName: String,
+        omhExt: OMHExtension
+    ): Map<String, String> {
+        val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
+        val bundle: Bundle? = bundles.get()[bundleName]
+        return bundle?.getReflectionPaths() ?: emptyMap()
+    }
 }
