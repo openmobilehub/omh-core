@@ -16,5 +16,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "OMH"
-
 include(":omh-core")
