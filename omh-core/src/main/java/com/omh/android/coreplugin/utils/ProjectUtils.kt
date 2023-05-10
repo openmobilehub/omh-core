@@ -3,7 +3,7 @@ package com.omh.android.coreplugin.utils
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.omh.android.coreplugin.model.OMHExtension
 import com.omh.android.coreplugin.process.Helper.getUserBuildTypesNames
-import com.omh.android.coreplugin.process.SetupNewBuildVariants
+import com.omh.android.coreplugin.process.SetupNewBuildVariants.execute
 import org.gradle.api.Project
 
 private const val OMH_PLUGIN_EXTENSION = "omhConfig"
@@ -34,13 +34,16 @@ internal fun Project.setupBuildVariantsAccordingToConfig(
     androidExtension.finalizeDsl { applicationExtension ->
         extension.validateIntegrity()
         val predefinedBuildTypes: List<String> = getUserBuildTypesNames(applicationExtension)
-        SetupNewBuildVariants.execute(
+        execute(
             predefinedBuildTypes,
             createdBuildTypesList,
             extension,
-            applicationExtension,
-            this
+            applicationExtension
         )
+    }
+    androidExtension.beforeVariants { variantBuilder ->
+        val name = variantBuilder.name
+        if (!createdBuildTypesList.contains(name)) variantBuilder.enable = false
     }
 }
 

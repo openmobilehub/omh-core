@@ -100,14 +100,13 @@ internal object SetupNewBuildVariants {
         }
     }
 
-    fun execute(
+    fun Project.execute(
         predefinedBuildTypes: List<String>,
         createdBuildTypesList: MutableList<String>,
         omhExtension: OMHExtension,
-        appExtension: ApplicationExtension,
-        project: Project
+        appExtension: ApplicationExtension
     ) {
-        project.joinBundlesAndUserBuildTypesForNewBuildVariants(
+        joinBundlesAndUserBuildTypesForNewBuildVariants(
             predefinedBuildTypes,
             createdBuildTypesList,
             omhExtension,

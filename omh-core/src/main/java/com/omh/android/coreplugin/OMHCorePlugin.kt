@@ -37,10 +37,6 @@ import org.gradle.api.Project
  *             addNonGmsService("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
  *         }
  *     }
- *
- *     defaultServices {
- *         auth("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
- *     }
  * }
  * ```
  */
