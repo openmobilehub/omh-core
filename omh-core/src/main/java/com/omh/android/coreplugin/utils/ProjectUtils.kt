@@ -31,13 +31,14 @@ internal fun Project.setupBuildVariantsAccordingToConfig(
     extension: OMHExtension,
     createdBuildTypesList: MutableList<String>
 ) {
-    androidExtension.finalizeDsl {
+    androidExtension.finalizeDsl { applicationExtension ->
         extension.validateIntegrity()
+        val predefinedBuildTypes: List<String> = getUserBuildTypesNames(applicationExtension)
         SetupNewBuildVariants.execute(
-            getUserBuildTypesNames(it),
+            predefinedBuildTypes,
             createdBuildTypesList,
             extension,
-            it,
+            applicationExtension,
             this
         )
     }
