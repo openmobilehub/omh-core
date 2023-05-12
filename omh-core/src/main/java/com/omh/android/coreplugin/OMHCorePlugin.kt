@@ -1,7 +1,6 @@
 package com.omh.android.coreplugin
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.omh.android.coreplugin.utils.removeTestsTasksFromGeneratedTypes
 import com.omh.android.coreplugin.utils.setupBuildVariantsAccordingToConfig
 import com.omh.android.coreplugin.utils.setupExtension
 import org.gradle.api.Plugin
@@ -54,6 +53,5 @@ class OMHCorePlugin : Plugin<Project> {
             omhExtension,
             createdBuildTypesList
         )
-        androidExtension.removeTestsTasksFromGeneratedTypes(createdBuildTypesList)
     }
 }

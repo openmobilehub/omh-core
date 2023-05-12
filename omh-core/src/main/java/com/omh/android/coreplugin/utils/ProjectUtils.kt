@@ -46,17 +46,3 @@ internal fun Project.setupBuildVariantsAccordingToConfig(
         if (!createdBuildTypesList.contains(name)) variantBuilder.enable = false
     }
 }
-
-/**
- * Remove test tasks from the new generated build types.
- */
-internal fun ApplicationAndroidComponentsExtension.removeTestsTasksFromGeneratedTypes(
-    generatedTypesList: List<String>
-) {
-    beforeVariants { variantBuilder ->
-        if (generatedTypesList.any { variantBuilder.name.contains(it) }) {
-            variantBuilder.enableUnitTest = false
-            variantBuilder.enableAndroidTest = false
-        }
-    }
-}
