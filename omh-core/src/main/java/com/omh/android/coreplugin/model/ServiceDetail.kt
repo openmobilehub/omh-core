@@ -4,6 +4,10 @@ import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 
+/**
+ * Represents detailed information of a Service like the dependency and the path.
+ * @see Service
+ */
 open class ServiceDetail @Inject constructor(
     project: Project,
     private val defaultPath: String,
@@ -17,6 +21,10 @@ open class ServiceDetail @Inject constructor(
             return !value.isNullOrBlank() || !value.isNullOrEmpty()
         }
 
+    /**
+     *  This is the library in itself.
+     *  For example:
+     */
     var dependency: String?
         set(value) = dependencyProperty.set(value)
         get() = dependencyProperty.orNull

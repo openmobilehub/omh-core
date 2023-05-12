@@ -3,6 +3,7 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 
 configure<GradlePluginDevelopmentExtension> {

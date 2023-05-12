@@ -4,6 +4,9 @@ import org.gradle.api.Project
 import javax.inject.Inject
 import org.gradle.api.Action
 
+/**
+ * Represents the type of dependency to be added. It can only be GMS o NON GMS
+ */
 open class Service @Inject constructor(
     project: Project,
     val key: String,

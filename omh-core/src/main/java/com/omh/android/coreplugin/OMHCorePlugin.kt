@@ -8,41 +8,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * OMHCorePlugin supplies and help the developers to configure, enable and set-up the OMH SDK in
- * their projects.
- *
- * This plugin automatically implements the necessary dependencies and enable the custom-build
- * variants to allow you compile the different builds to use the defined providers.
- *
- * Configuration example(Assume as an illustrative example, an auth service):
- *
- * ```kotlin
- * // Using Kotlin DSL.
- * omhConfig {
- *     bundle("worldwide") {
- *         auth {
- *             addGmsService("com.omh.android:auth-api-gms:1.0-SNAPSHOT")
- *             addNonGmsService("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
- *         }
- *     }
- *
- *     bundle("gmsStore") {
- *         auth {
- *             addGmsService("com.omh.android:auth-api-gms:1.0-SNAPSHOT")
- *         }
- *     }
- *
- *     bundle("nonGmsStore") {
- *         auth {
- *             addNonGmsService("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
- *         }
- *     }
- *
- *     defaultServices {
- *         auth("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
- *     }
- * }
- * ```
+ * Represents the plugin itself.
  */
 class OMHCorePlugin : Plugin<Project> {
 

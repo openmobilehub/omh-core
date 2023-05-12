@@ -12,7 +12,30 @@ import com.omh.android.coreplugin.utils.BundleData
 import com.omh.android.coreplugin.utils.addDependencyToBuildType
 import org.gradle.api.Project
 
+/**
+ * This class is in charge of creating the build variants based on information provided by the user
+ * at the time of setting up the plugin in clients.
+ */
 internal object SetupNewBuildVariants {
+
+    fun execute(
+        alreadyDefinedBuildTypes: List<String>,
+        createdBuildTypesList: MutableList<String>,
+        omhExtension: OMHExtension,
+        appExtension: ApplicationExtension,
+        project: Project
+    ) {
+        project.joinBundlesAndUserBuildTypesForNewBuildVariants(
+            alreadyDefinedBuildTypes,
+            createdBuildTypesList,
+            omhExtension,
+            appExtension
+        )
+        project.addDefaultDependenciesToUserBuildTypes(
+            alreadyDefinedBuildTypes,
+            omhExtension
+        )
+    }
 
     private fun Project.joinBundlesAndUserBuildTypesForNewBuildVariants(
         predefinedBuildTypes: List<String>,
@@ -21,6 +44,7 @@ internal object SetupNewBuildVariants {
         appExtension: ApplicationExtension
     ) {
         getBundlesNames(omhExtension).forEach { bundleName ->
+            println(bundleName)
             handleBundle(
                 bundleName,
                 omhExtension,
@@ -31,6 +55,22 @@ internal object SetupNewBuildVariants {
         }
     }
 
+    private fun Project.addDefaultDependenciesToUserBuildTypes(
+        alreadyDefinedBuildTypes: List<String>,
+        omhExtension: OMHExtension
+    ) {
+        omhExtension.getDefaultServices()?.also {
+            alreadyDefinedBuildTypes.forEach { userBuildType ->
+                for (defaultDependency in it.dependenciesList()) {
+                    addDependencyToBuildType(defaultDependency, userBuildType)
+                }
+            }
+        }
+    }
+
+    /**
+     * Set up required information and get ready to create the new build types.
+     */
     private fun Project.handleBundle(
         bundleName: String,
         omhExtension: OMHExtension,
@@ -58,6 +98,9 @@ internal object SetupNewBuildVariants {
         }
     }
 
+    /**
+     * Creates the new buildTypes based on the new bundles and services information added by clients.
+     */
     private fun Project.handleNewBuildType(
         predefinedBuildType: String,
         bundleData: BundleData,
@@ -80,6 +123,9 @@ internal object SetupNewBuildVariants {
         createdBuildTypesList.add(finalBuildType)
     }
 
+    /**
+     * Add BuildConfig fields that will be able for clients to use them.
+     */
     private fun ApplicationBuildType.addReflectionPaths(bundleData: BundleData) {
         for ((variableName: String, bundlePath: String) in bundleData.reflectionPaths) {
             buildConfigField("String", variableName, "\"$bundlePath\"")
@@ -96,35 +142,4 @@ internal object SetupNewBuildVariants {
         }
     }
 
-    private fun Project.addDefaultDependenciesToUserBuildTypes(
-        alreadyDefinedBuildTypes: List<String>,
-        omhExtension: OMHExtension
-    ) {
-        omhExtension.getDefaultServices()?.also {
-            alreadyDefinedBuildTypes.forEach { userBuildType ->
-                for (defaultDependency in it.dependenciesList()) {
-                    addDependencyToBuildType(defaultDependency, userBuildType)
-                }
-            }
-        }
-    }
-
-    fun execute(
-        alreadyDefinedBuildTypes: List<String>,
-        createdBuildTypesList: MutableList<String>,
-        omhExtension: OMHExtension,
-        appExtension: ApplicationExtension,
-        project: Project
-    ) {
-        project.joinBundlesAndUserBuildTypesForNewBuildVariants(
-            alreadyDefinedBuildTypes,
-            createdBuildTypesList,
-            omhExtension,
-            appExtension
-        )
-        project.addDefaultDependenciesToUserBuildTypes(
-            alreadyDefinedBuildTypes,
-            omhExtension
-        )
-    }
 }

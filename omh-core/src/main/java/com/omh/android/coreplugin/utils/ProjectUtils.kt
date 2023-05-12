@@ -24,7 +24,8 @@ internal fun Project.addDependencyToBuildType(
 }
 
 /**
- * Analyze and create the build variants according to the implemented OMH services.
+ * Validate require information from gradle and create the build variants
+ * according to the implemented OMH services.
  */
 internal fun Project.setupBuildVariantsAccordingToConfig(
     androidExtension: ApplicationAndroidComponentsExtension,

@@ -71,6 +71,9 @@ open class OMHExtension @Inject constructor(private val project: Project) {
         return false
     }
 
+    /**
+     * Validate that bundles and services are required at the time of using the plugin in clients.
+     */
     @SuppressWarnings("CyclomaticComplexMethod")
     fun validateIntegrity() {
         var errorMsg = ""

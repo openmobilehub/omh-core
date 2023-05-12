@@ -2,12 +2,15 @@ package com.omh.android.coreplugin.model
 
 import com.omh.android.coreplugin.utils.AUTH_GMS_ADDRESS
 import com.omh.android.coreplugin.utils.AUTH_NGMS_ADDRESS
-import com.omh.android.coreplugin.utils.ApiPath
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/**
+ * Represents a new build type that will be added.
+ * For instance, "play store", "huawei store" or "single build".
+ */
 open class Bundle @Inject constructor(project: Project) {
 
     internal val id: Property<String> = project.objects.property(String::class.java)
