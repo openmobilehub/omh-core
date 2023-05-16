@@ -59,19 +59,23 @@ internal object SetupNewBuildVariants {
     }
 
     private fun Project.handleNewBuildType(
-        predefinedBuildType: String,
+        predefinedBuildTypeName: String,
         bundleData: BundleData,
         appExtension: ApplicationExtension,
         createdBuildTypesList: MutableList<String>
     ) {
         val finalBuildType: String = generateNewBuildTypeName(
-            alreadyDefinedBuildType = predefinedBuildType,
+            alreadyDefinedBuildType = predefinedBuildTypeName,
             bundleName = bundleData.name
         )
 
         appExtension.buildTypes.create(finalBuildType) {
             // Function that lets you copy configurations from an existing build type
-            initWith(getUserAppBuildType(predefinedBuildType, appExtension))
+            val userAppBuildType: ApplicationBuildType = getUserAppBuildType(
+                alreadyDefinedBuildType = predefinedBuildTypeName,
+                appExt = appExtension
+            )
+            initWith(userAppBuildType)
             // then configure only the settings you want to change
             addDependencies(bundleData.dependencies, finalBuildType)
             // Add the reflection path to the BuildConfigField
@@ -96,35 +100,17 @@ internal object SetupNewBuildVariants {
         }
     }
 
-    private fun Project.addDefaultDependenciesToUserBuildTypes(
-        alreadyDefinedBuildTypes: List<String>,
-        omhExtension: OMHExtension
-    ) {
-        omhExtension.getDefaultServices()?.also {
-            alreadyDefinedBuildTypes.forEach { userBuildType ->
-                for (defaultDependency in it.dependenciesList()) {
-                    addDependencyToBuildType(defaultDependency, userBuildType)
-                }
-            }
-        }
-    }
-
-    fun execute(
-        alreadyDefinedBuildTypes: List<String>,
+    fun Project.execute(
+        predefinedBuildTypes: List<String>,
         createdBuildTypesList: MutableList<String>,
         omhExtension: OMHExtension,
-        appExtension: ApplicationExtension,
-        project: Project
+        appExtension: ApplicationExtension
     ) {
-        project.joinBundlesAndUserBuildTypesForNewBuildVariants(
-            alreadyDefinedBuildTypes,
+        joinBundlesAndUserBuildTypesForNewBuildVariants(
+            predefinedBuildTypes,
             createdBuildTypesList,
             omhExtension,
             appExtension
-        )
-        project.addDefaultDependenciesToUserBuildTypes(
-            alreadyDefinedBuildTypes,
-            omhExtension
         )
     }
 }

@@ -1,7 +1,6 @@
 package com.omh.android.coreplugin
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.omh.android.coreplugin.utils.removeTestsTasksFromGeneratedTypes
 import com.omh.android.coreplugin.utils.setupBuildVariantsAccordingToConfig
 import com.omh.android.coreplugin.utils.setupExtension
 import org.gradle.api.Plugin
@@ -37,10 +36,6 @@ import org.gradle.api.Project
  *             addNonGmsService("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
  *         }
  *     }
- *
- *     defaultServices {
- *         auth("com.omh.android:auth-api-non-gms:1.0-SNAPSHOT")
- *     }
  * }
  * ```
  */
@@ -58,6 +53,5 @@ class OMHCorePlugin : Plugin<Project> {
             omhExtension,
             createdBuildTypesList
         )
-        androidExtension.removeTestsTasksFromGeneratedTypes(createdBuildTypesList)
     }
 }

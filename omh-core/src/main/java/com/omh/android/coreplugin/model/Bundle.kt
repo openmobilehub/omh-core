@@ -2,7 +2,6 @@ package com.omh.android.coreplugin.model
 
 import com.omh.android.coreplugin.utils.AUTH_GMS_ADDRESS
 import com.omh.android.coreplugin.utils.AUTH_NGMS_ADDRESS
-import com.omh.android.coreplugin.utils.ApiPath
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
