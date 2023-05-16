@@ -48,6 +48,10 @@ omhConfig {
 }
 ```
 
+You can also see this video: 
+
+<video src="https://github.com/openmobilehub/omh-core/assets/10377529/2d701e62-2b1c-4edf-9029-a10314465020"></video>
+
 ## Usage
 
 ### Step 1: Create an instance of OmhAuthClient
