@@ -50,7 +50,7 @@ omhConfig {
 
 You can also see this video: 
 
-https://github.com/openmobilehub/omh-core/assets/10377529/79cabc9b-c2c3-483a-9959-b3e2ac369eba
+https://github.com/openmobilehub/omh-core/assets/10377529/1b142648-9005-43cd-804b-8e80e1b0ea07
 
 
 ## Usage
