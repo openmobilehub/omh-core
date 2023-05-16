@@ -91,6 +91,10 @@ private val loginLauncher: ActivityResultLauncher<Intent> =
     }
 ```
 
+You can also see the video:
+
+https://github.com/openmobilehub/omh-core/assets/10377529/b71d0fad-31cf-4a7c-983d-f3542045f3f1
+
 ## Documentation
 
 See example and check the full documentation at our Wiki.
