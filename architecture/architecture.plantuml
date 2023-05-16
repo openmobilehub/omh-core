@@ -1,0 +1,50 @@
+@startuml "Architecture"
+
+class OMHCoreplugin #LightSeaGreen
+note left of OMHCoreplugin: Entry point\n data
+
+object SetupNewBuildVariants #LightCoral
+note top of SetupNewBuildVariants: Logic to generate build variantes
+
+object Helper
+
+class Bundle {
+    + void getDependencies()
+    + void getReflectionPaths()
+}
+
+class Service {
+    + void gmsService()
+    + void nonGmsService()
+}
+
+class ServiceDetail {
+    + dependencyProperty: Property
+    + parthProperty
+}
+
+class OMHExtension {
+    - defaultServices
+    - bundles
+}
+
+class DefaultService {
+    + List dependenciesList()
+}
+
+
+OMHCoreplugin -- ProjectUtils
+ProjectUtils -- OMHExtension
+
+ProjectUtils -- SetupNewBuildVariants
+
+SetupNewBuildVariants -- Helper
+SetupNewBuildVariants -- BundleData
+
+OMHExtension o-- DefaultService
+OMHExtension o-- Bundle
+
+Bundle o-- Service
+Service o-- ServiceDetail
+
+@enduml
