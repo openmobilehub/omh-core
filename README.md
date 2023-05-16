@@ -97,7 +97,7 @@ https://github.com/openmobilehub/omh-core/assets/10377529/b71d0fad-31cf-4a7c-983
 
 ## Documentation
 
-See example and check the full documentation at our Wiki.
+See example and check the full documentation at our [Wiki](https://github.com/openmobilehub/omh-core/wiki).
 
 ## Contributing
 
