@@ -18,25 +18,6 @@ import org.gradle.api.Project
  */
 internal object SetupNewBuildVariants {
 
-    fun execute(
-        alreadyDefinedBuildTypes: List<String>,
-        createdBuildTypesList: MutableList<String>,
-        omhExtension: OMHExtension,
-        appExtension: ApplicationExtension,
-        project: Project
-    ) {
-        project.joinBundlesAndUserBuildTypesForNewBuildVariants(
-            alreadyDefinedBuildTypes,
-            createdBuildTypesList,
-            omhExtension,
-            appExtension
-        )
-        project.addDefaultDependenciesToUserBuildTypes(
-            alreadyDefinedBuildTypes,
-            omhExtension
-        )
-    }
-
     private fun Project.joinBundlesAndUserBuildTypesForNewBuildVariants(
         predefinedBuildTypes: List<String>,
         createdBuildTypes: MutableList<String>,
@@ -44,7 +25,6 @@ internal object SetupNewBuildVariants {
         appExtension: ApplicationExtension
     ) {
         getBundlesNames(omhExtension).forEach { bundleName ->
-            println(bundleName)
             handleBundle(
                 bundleName,
                 omhExtension,
@@ -55,22 +35,6 @@ internal object SetupNewBuildVariants {
         }
     }
 
-    private fun Project.addDefaultDependenciesToUserBuildTypes(
-        alreadyDefinedBuildTypes: List<String>,
-        omhExtension: OMHExtension
-    ) {
-        omhExtension.getDefaultServices()?.also {
-            alreadyDefinedBuildTypes.forEach { userBuildType ->
-                for (defaultDependency in it.dependenciesList()) {
-                    addDependencyToBuildType(defaultDependency, userBuildType)
-                }
-            }
-        }
-    }
-
-    /**
-     * Set up required information and get ready to create the new build types.
-     */
     private fun Project.handleBundle(
         bundleName: String,
         omhExtension: OMHExtension,
@@ -102,19 +66,23 @@ internal object SetupNewBuildVariants {
      * Creates the new buildTypes based on the new bundles and services information added by clients.
      */
     private fun Project.handleNewBuildType(
-        predefinedBuildType: String,
+        predefinedBuildTypeName: String,
         bundleData: BundleData,
         appExtension: ApplicationExtension,
         createdBuildTypesList: MutableList<String>
     ) {
         val finalBuildType: String = generateNewBuildTypeName(
-            alreadyDefinedBuildType = predefinedBuildType,
+            alreadyDefinedBuildType = predefinedBuildTypeName,
             bundleName = bundleData.name
         )
 
         appExtension.buildTypes.create(finalBuildType) {
             // Function that lets you copy configurations from an existing build type
-            initWith(getUserAppBuildType(predefinedBuildType, appExtension))
+            val userAppBuildType: ApplicationBuildType = getUserAppBuildType(
+                alreadyDefinedBuildType = predefinedBuildTypeName,
+                appExt = appExtension
+            )
+            initWith(userAppBuildType)
             // then configure only the settings you want to change
             addDependencies(bundleData.dependencies, finalBuildType)
             // Add the reflection path to the BuildConfigField
@@ -142,4 +110,17 @@ internal object SetupNewBuildVariants {
         }
     }
 
+    fun Project.execute(
+        predefinedBuildTypes: List<String>,
+        createdBuildTypesList: MutableList<String>,
+        omhExtension: OMHExtension,
+        appExtension: ApplicationExtension
+    ) {
+        joinBundlesAndUserBuildTypesForNewBuildVariants(
+            predefinedBuildTypes,
+            createdBuildTypesList,
+            omhExtension,
+            appExtension
+        )
+    }
 }
