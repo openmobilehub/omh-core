@@ -17,11 +17,9 @@ class OMHCorePlugin : Plugin<Project> {
             ApplicationAndroidComponentsExtension::class.java
         )
 
-        val createdBuildTypesList = mutableListOf<String>()
         gradleProject.setupBuildVariantsAccordingToConfig(
             androidExtension,
-            omhExtension,
-            createdBuildTypesList
+            omhExtension
         )
     }
 }
