@@ -12,6 +12,10 @@ import com.omh.android.coreplugin.utils.BundleData
 import com.omh.android.coreplugin.utils.addDependencyToBuildType
 import org.gradle.api.Project
 
+/**
+ * This class is in charge of creating the build variants based on information provided by the user
+ * at the time of setting up the plugin in clients.
+ */
 internal object SetupNewBuildVariants {
 
     private fun Project.joinBundlesAndUserBuildTypesForNewBuildVariants(
@@ -58,6 +62,9 @@ internal object SetupNewBuildVariants {
         }
     }
 
+    /**
+     * Creates the new buildTypes based on the new bundles and services information added by clients.
+     */
     private fun Project.handleNewBuildType(
         predefinedBuildTypeName: String,
         bundleData: BundleData,
@@ -84,6 +91,9 @@ internal object SetupNewBuildVariants {
         createdBuildTypesList.add(finalBuildType)
     }
 
+    /**
+     * Add BuildConfig fields that will be able for clients to use them.
+     */
     private fun ApplicationBuildType.addReflectionPaths(bundleData: BundleData) {
         for ((variableName: String, bundlePath: String) in bundleData.reflectionPaths) {
             buildConfigField("String", variableName, "\"$bundlePath\"")

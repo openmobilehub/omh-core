@@ -7,6 +7,10 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/**
+ * Represents a new build type that will be added.
+ * For instance, "play store", "huawei store" or "single build".
+ */
 open class Bundle @Inject constructor(project: Project) {
 
     internal val id: Property<String> = project.objects.property(String::class.java)

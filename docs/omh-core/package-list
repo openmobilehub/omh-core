@@ -1,0 +1,38 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.omh.android.coreplugin.model////PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/index.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/index.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle/Bundle/#org.gradle.api.Project/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/-bundle.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle/auth/#org.gradle.api.Action[com.omh.android.coreplugin.model.Service]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/auth.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle/getReflectionPaths/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/get-reflection-paths.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle/maps/#org.gradle.api.Action[com.omh.android.coreplugin.model.Service]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/maps.html
+$dokka.location:com.omh.android.coreplugin.model/Bundle/storage/#org.gradle.api.Action[com.omh.android.coreplugin.model.Service]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-bundle/storage.html
+$dokka.location:com.omh.android.coreplugin.model/OMHExtension.Companion///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-o-m-h-extension/-companion/index.html
+$dokka.location:com.omh.android.coreplugin.model/OMHExtension///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-o-m-h-extension/index.html
+$dokka.location:com.omh.android.coreplugin.model/OMHExtension/OMHExtension/#org.gradle.api.Project/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-o-m-h-extension/-o-m-h-extension.html
+$dokka.location:com.omh.android.coreplugin.model/OMHExtension/bundle/#kotlin.String#org.gradle.api.Action[com.omh.android.coreplugin.model.Bundle]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-o-m-h-extension/bundle.html
+$dokka.location:com.omh.android.coreplugin.model/OMHExtension/validateIntegrity/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-o-m-h-extension/validate-integrity.html
+$dokka.location:com.omh.android.coreplugin.model/Service.Companion///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/-companion/index.html
+$dokka.location:com.omh.android.coreplugin.model/Service///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/index.html
+$dokka.location:com.omh.android.coreplugin.model/Service/Service/#org.gradle.api.Project#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/-service.html
+$dokka.location:com.omh.android.coreplugin.model/Service/gmsService/#org.gradle.api.Action[com.omh.android.coreplugin.model.ServiceDetail]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/gms-service.html
+$dokka.location:com.omh.android.coreplugin.model/Service/key/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/key.html
+$dokka.location:com.omh.android.coreplugin.model/Service/nonGmsService/#org.gradle.api.Action[com.omh.android.coreplugin.model.ServiceDetail]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service/non-gms-service.html
+$dokka.location:com.omh.android.coreplugin.model/ServiceDetail///PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service-detail/index.html
+$dokka.location:com.omh.android.coreplugin.model/ServiceDetail/ServiceDetail/#org.gradle.api.Project#kotlin.String/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service-detail/-service-detail.html
+$dokka.location:com.omh.android.coreplugin.model/ServiceDetail/dependency/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service-detail/dependency.html
+$dokka.location:com.omh.android.coreplugin.model/ServiceDetail/path/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.model/-service-detail/path.html
+$dokka.location:com.omh.android.coreplugin.utils////PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/index.html
+$dokka.location:com.omh.android.coreplugin.utils/BundleData///PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/-bundle-data/index.html
+$dokka.location:com.omh.android.coreplugin.utils/BundleData/BundleData/#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/-bundle-data/-bundle-data.html
+$dokka.location:com.omh.android.coreplugin.utils/BundleData/dependencies/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/-bundle-data/dependencies.html
+$dokka.location:com.omh.android.coreplugin.utils/BundleData/name/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/-bundle-data/name.html
+$dokka.location:com.omh.android.coreplugin.utils/BundleData/reflectionPaths/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin.utils/-bundle-data/reflection-paths.html
+$dokka.location:com.omh.android.coreplugin////PointingToDeclaration/omh-core/com.omh.android.coreplugin/index.html
+$dokka.location:com.omh.android.coreplugin/OMHCorePlugin///PointingToDeclaration/omh-core/com.omh.android.coreplugin/-o-m-h-core-plugin/index.html
+$dokka.location:com.omh.android.coreplugin/OMHCorePlugin/OMHCorePlugin/#/PointingToDeclaration/omh-core/com.omh.android.coreplugin/-o-m-h-core-plugin/-o-m-h-core-plugin.html
+$dokka.location:com.omh.android.coreplugin/OMHCorePlugin/apply/#org.gradle.api.Project/PointingToDeclaration/omh-core/com.omh.android.coreplugin/-o-m-h-core-plugin/apply.html
+com.omh.android.coreplugin
+com.omh.android.coreplugin.model
+com.omh.android.coreplugin.utils
+
