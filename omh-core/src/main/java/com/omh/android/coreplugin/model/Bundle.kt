@@ -2,6 +2,8 @@ package com.omh.android.coreplugin.model
 
 import com.omh.android.coreplugin.utils.AUTH_GMS_ADDRESS
 import com.omh.android.coreplugin.utils.AUTH_NGMS_ADDRESS
+import com.omh.android.coreplugin.utils.MAPS_GMS_ADDRESS
+import com.omh.android.coreplugin.utils.MAPS_NGMS_ADDRESS
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -23,9 +25,9 @@ open class Bundle @Inject constructor(project: Project) {
     private val maps: Service = project.objects.newInstance(
         Service::class.java,
         Service.MAPS,
-        "",
-        ""
-    ) // TODO ADD REFLECTION PATHS
+        MAPS_GMS_ADDRESS,
+        MAPS_NGMS_ADDRESS
+    )
     private val storage: Service = project.objects.newInstance(
         Service::class.java,
         Service.STORAGE,

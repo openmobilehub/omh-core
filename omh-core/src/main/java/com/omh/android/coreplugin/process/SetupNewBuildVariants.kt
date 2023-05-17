@@ -20,7 +20,6 @@ internal object SetupNewBuildVariants {
 
     private fun Project.joinBundlesAndUserBuildTypesForNewBuildVariants(
         predefinedBuildTypes: List<String>,
-        createdBuildTypes: MutableList<String>,
         omhExtension: OMHExtension,
         appExtension: ApplicationExtension
     ) {
@@ -29,8 +28,7 @@ internal object SetupNewBuildVariants {
                 bundleName,
                 omhExtension,
                 predefinedBuildTypes,
-                appExtension,
-                createdBuildTypes
+                appExtension
             )
         }
     }
@@ -40,7 +38,6 @@ internal object SetupNewBuildVariants {
         omhExtension: OMHExtension,
         predefinedBuildTypes: List<String>,
         appExtension: ApplicationExtension,
-        createdBuildTypes: MutableList<String>
     ) {
         val dependenciesToAdd: List<String> = getBundleDependencies(
             bundleName = bundleName,
@@ -56,8 +53,7 @@ internal object SetupNewBuildVariants {
             handleNewBuildType(
                 predefinedBuildType,
                 bundleData,
-                appExtension,
-                createdBuildTypes
+                appExtension
             )
         }
     }
@@ -68,8 +64,7 @@ internal object SetupNewBuildVariants {
     private fun Project.handleNewBuildType(
         predefinedBuildTypeName: String,
         bundleData: BundleData,
-        appExtension: ApplicationExtension,
-        createdBuildTypesList: MutableList<String>
+        appExtension: ApplicationExtension
     ) {
         val finalBuildType: String = generateNewBuildTypeName(
             alreadyDefinedBuildType = predefinedBuildTypeName,
@@ -88,7 +83,6 @@ internal object SetupNewBuildVariants {
             // Add the reflection path to the BuildConfigField
             addReflectionPaths(bundleData)
         }
-        createdBuildTypesList.add(finalBuildType)
     }
 
     /**
@@ -112,13 +106,11 @@ internal object SetupNewBuildVariants {
 
     fun Project.execute(
         predefinedBuildTypes: List<String>,
-        createdBuildTypesList: MutableList<String>,
         omhExtension: OMHExtension,
         appExtension: ApplicationExtension
     ) {
         joinBundlesAndUserBuildTypesForNewBuildVariants(
             predefinedBuildTypes,
-            createdBuildTypesList,
             omhExtension,
             appExtension
         )
