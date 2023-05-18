@@ -43,7 +43,7 @@ internal object SetupNewBuildVariants {
             bundleName = bundleName,
             omhExt = omhExtension
         )
-        val reflectionPaths: Map<String, String> = getBundleReflectionPaths(
+        val reflectionPaths: Map<String, String?> = getBundleReflectionPaths(
             bundleName = bundleName,
             omhExt = omhExtension
         )
@@ -89,8 +89,9 @@ internal object SetupNewBuildVariants {
      * Add BuildConfig fields that will be able for clients to use them.
      */
     private fun ApplicationBuildType.addReflectionPaths(bundleData: BundleData) {
-        for ((variableName: String, bundlePath: String) in bundleData.reflectionPaths) {
-            buildConfigField("String", variableName, "\"$bundlePath\"")
+        for ((variableName: String, reflectionPath: String?) in bundleData.reflectionPaths) {
+            val value = if (reflectionPath != null) "\"$reflectionPath\"" else "null"
+            buildConfigField("String", variableName, value)
         }
     }
 
