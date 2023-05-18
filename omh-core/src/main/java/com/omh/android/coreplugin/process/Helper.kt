@@ -43,7 +43,7 @@ internal object Helper {
     fun getBundleReflectionPaths(
         bundleName: String,
         omhExt: OMHExtension
-    ): Map<String, String> {
+    ): Map<String, String?> {
         val bundles: MapProperty<String, Bundle> = omhExt.getBundles()
         val bundle: Bundle? = bundles.get()[bundleName]
         return bundle?.getReflectionPaths() ?: emptyMap()

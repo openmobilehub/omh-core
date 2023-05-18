@@ -68,8 +68,8 @@ open class Bundle @Inject constructor(project: Project) {
         }
     }
 
-    fun getReflectionPaths(): Map<String, String> {
-        val pathMap = mutableMapOf<String, String>()
+    fun getReflectionPaths(): Map<String, String?> {
+        val pathMap = mutableMapOf<String, String?>()
         for (service in enabledServices) {
             addPathsFromService(pathMap, service)
         }
@@ -77,7 +77,7 @@ open class Bundle @Inject constructor(project: Project) {
     }
 
     private fun addPathsFromService(
-        pathMap: MutableMap<String, String>,
+        pathMap: MutableMap<String, String?>,
         service: Service
     ) {
         pathMap["${service.key}_GMS_PATH"] = selectPathValue(
@@ -90,8 +90,7 @@ open class Bundle @Inject constructor(project: Project) {
         )
     }
 
-    private fun selectPathValue(validator: () -> Boolean, getter: () -> String): String {
-        // NULL will be converted to the primitive type in the BuildConfigField.
-        return if (validator()) getter() else "null"
+    private fun selectPathValue(validator: () -> Boolean, getter: () -> String): String? {
+        return if (validator()) getter() else null
     }
 }
