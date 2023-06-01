@@ -6,7 +6,7 @@
 
 ### General context
 
-*OMH is an open-source Android SDK to make easily swap between GMS, Non-GMS and our custom OHM services.*
+*OMH is an open-source Android SDK to make easily swap between GMS, Non-GMS and our custom OMH services.*
 
 *It aims at creating low coupled, extensible SDK reducing the code boilerplate of switching between GMS, Non-GMS, or any other service, and also provides a custom full open source alternative services switching automatically according to your configuration in the Gradle plugin giving the right outputs without overloading your APK with unnecessary libraries.*
 
