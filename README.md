@@ -1,4 +1,5 @@
 [![GitHub license](https://img.shields.io/github/license/openmobilehub/omh-core)](https://github.com/openmobilehub/omh-core/blob/main/LICENSE)
+[![Discord](https://img.shields.io/discord/1115727214827278446)](https://discord.gg/X8QB9DJXX6)
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-core)
 [![API](https://img.shields.io/badge/API-21%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#5.0)
 
