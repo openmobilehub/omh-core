@@ -1,7 +1,10 @@
-[![GitHub license](https://img.shields.io/github/license/openmobilehub/omh-core)](https://github.com/openmobilehub/omh-core/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/1115727214827278446)](https://discord.gg/X8QB9DJXX6)
+![Apache-2.0](https://img.shields.io/badge/license-Apache-blue)
+<!--
+// TODO - enable when the repo gets released and is public
 ![GitHub contributors](https://img.shields.io/github/contributors/openmobilehub/omh-core)
-[![API](https://img.shields.io/badge/API-21%2B-green.svg?style=flat)](https://developer.android.com/studio/releases/platforms#5.0)
+-->
+[![Android CI](https://github.com/openmobilehub/omh-core/actions/workflows/android_pr.yml/badge.svg)](https://github.com/openmobilehub/omh-core/actions/workflows/android_pr.yml)
 
 # OMH (Open Mobile Hub) - Core
 
