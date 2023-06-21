@@ -34,12 +34,12 @@ tasks {
     getByName("prepareKotlinBuildScriptModel").dependsOn(installPreCommitHook)
 }
 
-val ossrhUsername by extra(getValueFromEnvOrProperties("ossrhUsername"))
-val ossrhPassword by extra(getValueFromEnvOrProperties("ossrhPassword"))
-val mStagingProfileId by extra(getValueFromEnvOrProperties("stagingProfileId"))
-val signingKeyId by extra(getValueFromEnvOrProperties("signing.keyId"))
-val signingPassword by extra(getValueFromEnvOrProperties("signing.password"))
-val signingKey by extra(getValueFromEnvOrProperties("signing.key"))
+val ossrhUsername by extra(getValueFromEnvOrProperties("OSSRH_USERNAME"))
+val ossrhPassword by extra(getValueFromEnvOrProperties("OSSRH_PASSWORD"))
+val mStagingProfileId by extra(getValueFromEnvOrProperties("SONATYPE_STAGING_PROFILE_ID"))
+val signingKeyId by extra(getValueFromEnvOrProperties("SIGNING_KEY_ID"))
+val signingPassword by extra(getValueFromEnvOrProperties("SIGNING_PASSWORD"))
+val signingKey by extra(getValueFromEnvOrProperties("SIGNING_KEY"))
 
 // Set up Sonatype repository
 nexusPublishing {
