@@ -46,6 +46,7 @@ val javadocJar by tasks.registering(Jar::class) {
 
 artifacts {
     add("archives", pluginSourcesJar)
+    add("archives", javadocJar)
 }
 
 val groupProperty = getPropertyOrFail("group")
