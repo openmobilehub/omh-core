@@ -117,3 +117,7 @@ packagingOptions {
     exclude("META-INF/DEPENDENCIES")
 }
 ```
+
+# Governance
+
+For details on our project's governance model and how decisions are made, please see our [Governance Policy](https://github.com/openmobilehub/admin/blob/main/GOVERNANCE.md).
