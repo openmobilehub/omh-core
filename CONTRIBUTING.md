@@ -63,3 +63,7 @@ The [wiki].
 4. Bump the version, create a Git tag and commit the changes
 5. Push the version bump commit: `git push`
 6. Push the Git tag: `git push --tags`
+
+# Governance
+
+For details on our project's governance model and how decisions are made, please see our [Governance Policy](https://github.com/openmobilehub/admin/blob/main/GOVERNANCE.md).
